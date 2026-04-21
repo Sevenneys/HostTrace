@@ -26,7 +26,7 @@ class ArpScan:
         print("=" * 50 + "\n")
         self.arp.show()
         print("=" * 50)
-        print(f"   --IP--        --MAC--        --STATUS--")
+        print(f"IP | MAC | Vendor | Hostname | Status")
         print("=" * 50)
 
         

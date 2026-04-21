@@ -18,7 +18,7 @@ class ArgFlasg():
             
         elif self.args.aS:
 
-            new_arp = ArpScan('192.168.0.0/24')
+            new_arp = ArpScan(self.args.aS)
             new_arp.InfoArpScan()
             new_arp.Scan()
 
