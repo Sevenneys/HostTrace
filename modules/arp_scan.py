@@ -4,6 +4,8 @@ import sys
 import os
 import platform
 
+from modules.write_files import datetime, Files
+
 class ArpScan:
 
     def __init__(self, target: str):
@@ -30,7 +32,7 @@ class ArpScan:
         print("=" * 50)
 
         
-    def Scan(self):
+    def Scan(self, desc_file=None):
 
         responses = []
 
@@ -42,14 +44,23 @@ class ArpScan:
 
                     device_ip = dst.psrc
                     device_mac = dst.hwsrc
+                    check_mac = f"{device_mac}\n"
 
-                    if device_mac not in responses:
+                    if check_mac not in responses:
                         print(f"{device_ip} {device_mac} [is ACTIVE 👁️]")
 
-                    responses.append(device_mac)
+                    responses.append(f"{device_ip} ")
+                    responses.append(f"{device_mac}\n")
 
                 time.sleep(6)
 
         except KeyboardInterrupt:
-            print()
+
+            if desc_file != None:
+                new_files = Files()
+                new_files.set_data(responses)
+                new_files.write_file(desc_file)
+
+            #print()
             sys.exit
+

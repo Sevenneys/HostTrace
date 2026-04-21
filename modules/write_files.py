@@ -23,15 +23,6 @@ class Files:
             print(f"--- Указан не корректный путь --- ❌")
 
 
-ip_dev = "192.168" + " "
-mac_dev = f"2f:34:12" + "\n"
-desc = "/home/seven/arp_res.txt"
-
-a = [ip_dev, mac_dev, ip_dev, mac_dev, ip_dev, mac_dev]
-
-new_files = Files()
-new_files.set_data(a)
-new_files.write_file(desc)
 
 
 
