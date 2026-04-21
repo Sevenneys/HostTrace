@@ -6,6 +6,7 @@ import platform
 
 
 from modules.write_files import datetime, Files
+from modules.find_to_name import FindName
 
 class ArpScan:
 
@@ -29,16 +30,15 @@ class ArpScan:
 
         print()
         
-        print("=" * 50 + "\n")
+        print("=" * 67 + "\n")
         self.arp.show()
-        print("=" * 50)
-        print(f"IP | MAC | Vendor | Hostname | Status")
-        print("=" * 50)
+        print("=" * 67)
+        print(f"        IP      |        MAC       |     HOST    |     STATUS")
+        print("=" * 67)
 
 
     def Scan(self, desc_file=None):
-
-        is_call = 1
+        find_name = FindName()
 
         try:
             while True:
@@ -48,13 +48,16 @@ class ArpScan:
 
                     device_ip = dst.psrc
                     device_mac = dst.hwsrc
-                    check_mac = f"{device_mac}\n"
+                    check_mac = f"{device_mac} -- "
+
+                    device_host = find_name.dns_resolve(device_ip)
 
                     if check_mac not in self.responses:
-                        print(f"{device_ip} {device_mac} [is ACTIVE 👁️]")
+                        print(f"-- {device_ip} -- {device_mac} -- {device_host} -- [is ACTIVE 👁️]")
 
-                        self.responses.append(f"{device_ip} ")
-                        self.responses.append(f"{device_mac}\n")
+                        self.responses.append(f"-- {device_ip} -- ")
+                        self.responses.append(f"{device_mac} -- ")
+                        self.responses.append(f" {device_host} --\n")
                         
                 time.sleep(6)
 
