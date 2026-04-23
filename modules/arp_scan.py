@@ -1,4 +1,4 @@
-from scapy.all import ARP, Ether, srp, get_if_list
+from scapy.all import ARP, Ether, srp, get_if_list, conf
 import time
 import sys
 import os
@@ -12,7 +12,8 @@ class ArpScan:
 
     def __init__(self, target: str):
 
-        self.responses = []
+        self.responses = set()
+        self.data_desition = dict()
 
         self.target = target
         self.arp = ARP(pdst=self.target)
@@ -45,21 +46,18 @@ class ArpScan:
                 ans, unans = srp(self.packet, timeout=2, verbose=0)
 
                 for src, dst in ans:
+                    
+                    self.data_desition["ip"] = dst.psrc
+                    self.data_desition["mac"] = dst.hwsrc
+                    self.data_desition["host"] = find_name.dns_resolve(self.data_desition.get("ip"))
 
-                    device_ip = dst.psrc
-                    device_mac = dst.hwsrc
-                    check_mac = f"{device_mac} -- "
-
-                    device_host = find_name.dns_resolve(device_ip)
-
-                    if check_mac not in self.responses:
-                        print(f"-- {device_ip} -- {device_mac} -- {device_host} -- [is ACTIVE 👁️]")
-
-                        self.responses.append(f"-- {device_ip} -- ")
-                        self.responses.append(f"{device_mac} -- ")
-                        self.responses.append(f" {device_host} --\n")
+                    if self.data_desition.get("mac") not in self.responses:
+                        print(f"-- {self.data_desition.get("ip")} -- {self.data_desition.get("mac")} -- {self.data_desition.get("host")} -- [is ACTIVE 👁️]")
                         
-                time.sleep(6)
+                    for val in self.data_desition.values():
+                        self.responses.add(val)
+
+                time.sleep(5)
 
         except KeyboardInterrupt:
 
