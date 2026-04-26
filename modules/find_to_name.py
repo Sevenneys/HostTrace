@@ -3,6 +3,7 @@ import socket
 
 class FindName:
 
+
     def dns_resolve(self, target_addr: str):
         try:
             a_name = socket.gethostbyaddr(target_addr)[0]
@@ -10,6 +11,8 @@ class FindName:
             a_name = "Unknow"
         return a_name
     
+
+    # Позже
     def get_ttl(self, target_addr: str):
         self.icmp_packet = IP(dst=target_addr) / ICMP()
 
@@ -19,6 +22,8 @@ class FindName:
             return icmp_reply.ttl
         else:
             return None
+
+
 
     
 
