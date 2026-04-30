@@ -1,7 +1,8 @@
 import argparse
 import time
 
-from modules.arp_scan import *
+from modules.Arp.arp_scan import *
+from modules.Arp.arp_spoof import *
 
 
 class ArgFlasg():
